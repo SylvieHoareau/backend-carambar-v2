@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import { specs } from './config/swagger.js';
 import jokeRoutes from './routes/jokeRoutes.js';
 import dotenv from 'dotenv';
+import authRoutes from './routes/authRoutes.js';
 
 // Chargement des variables d'environnement depuis le fichier .env
 dotenv.config();
@@ -61,25 +62,14 @@ if (process.env.NODE_ENV !== 'test')
 // Documentation Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
+
 // Route de base
 app.get('/', (req, res) => {
   res.redirect('/api-docs'); // Redirige vers la documentation Swagger
 });
 
-// Liste des utilisateurs
-// app.get('/users', (req, res) => {
-//     res.json([
-//         { id: 1, name: 'Alice' },
-//         { id: 2, name: 'Bob' }
-//     ]);
-// });
-
-// Ajouter un utilisateur
-// app.post('/users', (req, res) => {
-//     const newUser = req.body;
-//     // Ici, vous ajouteriez l'utilisateur à votre base de données
-//     res.status(201).json({ message: 'Utilisateur ajouté avec succès !', user: newUser });
-// });
+// Utilisation des routes pour l'authentification
+app.use('/api/auth', authRoutes);
 
 // Utilisation des routes pour les blagues
 app.use('/api/jokes', jokeRoutes);

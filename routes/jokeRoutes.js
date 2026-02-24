@@ -7,6 +7,7 @@ import {
   updateJokeById,
   deleteJokeById,
 } from "../controllers/jokeController.js";
+import { verifyToken } from "../middlewares/authMiddleware.js";
 const router = express.Router();
 
 // Route pour ajouter une blague
@@ -65,7 +66,7 @@ const router = express.Router();
  *                   example: "Erreur serveur"
  *
  */
-router.post("/", addJoke);
+router.post("/", verifyToken, addJoke);
 
 /**
  * @swagger
@@ -281,7 +282,7 @@ router.get("/:id", getJokeById);
  *                   example: "Erreur serveur"
  */
 // Route pour mettre à jour une blague par son ID
-router.put("/:id", updateJokeById);
+router.put("/:id", verifyToken, updateJokeById);
 
 /**
  * @swagger
@@ -330,7 +331,7 @@ router.put("/:id", updateJokeById);
  *                   example: "Erreur serveur"
  */
 // Route pour supprimer une blague par son ID
-router.delete("/:id", deleteJokeById);
+router.delete("/:id", verifyToken, deleteJokeById);
 
 // Exporter le routeur
 export default router;
